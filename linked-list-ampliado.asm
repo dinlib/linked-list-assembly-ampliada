@@ -871,228 +871,228 @@ ordenavazianome:
 retordenadatanome:
 	RET
 
-# ---------- ALTERAÇÃO SALARIAL ---------- #
+	# ---------- ALTERAÇÃO SALARIAL ---------- #
 
-alteracaosalarial:
-	movl ptinicio, %edi
-	cmpl $NULL, %edi
-	je alterasalarialvazia
-	pushl $titalteracaosalariao
-	call printf
-	addl $4, %esp
-	pushl $menusalarial
-	call printf
-	pushl $opcao
-	pushl $formaint
-	call  scanf
-	addl  $12, %esp
-	#pushl $formach    # para remover o enter
-	#call  scanf
-	#addl  $4, %esp
-	cmpl  $1, opcao
-	jz    aumentosalarial
-	cmpl  $2, opcao
-	jz    baixasalarial
-	pushl $msgerro
-	call  printf
-	addl  $4, %esp
-	jmp   alteracaosalarial
+	alteracaosalarial:
+		movl ptinicio, %edi
+		cmpl $NULL, %edi
+		je alterasalarialvazia
+		pushl $titalteracaosalariao
+		call printf
+		addl $4, %esp
+		pushl $menusalarial
+		call printf
+		pushl $opcao
+		pushl $formaint
+		call  scanf
+		addl  $12, %esp
+		#pushl $formach    # para remover o enter
+		#call  scanf
+		#addl  $4, %esp
+		cmpl  $1, opcao
+		jz    aumentosalarial
+		cmpl  $2, opcao
+		jz    baixasalarial
+		pushl $msgerro
+		call  printf
+		addl  $4, %esp
+		jmp   alteracaosalarial
 
-aumentosalarial:
+	aumentosalarial:
 
-	pushl $menuaumentosalarial
-	call  printf
-	pushl $opcao
-	pushl $formaint
-	call  scanf
-	addl  $12, %esp
+		pushl $menuaumentosalarial
+		call  printf
+		pushl $opcao
+		pushl $formaint
+		call  scanf
+		addl  $12, %esp
 
-	cmpl  $1, opcao
-	jz    aumentapct
-	cmpl  $2, opcao
-	jz    aumentasoma
-	cmpl  $3, opcao
-	jz    aumentamult
-	pushl $msgerro
-	call  printf
-	addl  $4, %esp
-	jmp   aumentosalarial
+		cmpl  $1, opcao
+		jz    aumentapct
+		cmpl  $2, opcao
+		jz    aumentasoma
+		cmpl  $3, opcao
+		jz    aumentamult
+		pushl $msgerro
+		call  printf
+		addl  $4, %esp
+		jmp   aumentosalarial
 
-baixasalarial:
-	pushl $menubaixasalarial
-	call  printf
-	pushl $opcao
-	pushl $formaint
-	call  scanf
-	addl  $12, %esp
-	cmpl  $1, opcao
-	jz    baixapct
-	cmpl  $2, opcao
-	jz    baixasoma
-	cmpl  $3, opcao
-	jz    baixadiv
-	pushl $msgerro
-	call  printf
-	addl  $4, %esp
-	jmp   baixasalarial
+	baixasalarial:
+		pushl $menubaixasalarial
+		call  printf
+		pushl $opcao
+		pushl $formaint
+		call  scanf
+		addl  $12, %esp
+		cmpl  $1, opcao
+		jz    baixapct
+		cmpl  $2, opcao
+		jz    baixasoma
+		cmpl  $3, opcao
+		jz    baixadiv
+		pushl $msgerro
+		call  printf
+		addl  $4, %esp
+		jmp   baixasalarial
 
-alterasalarialvazia:
-	pushl $msgvazia
-	call printf
-	addl $4, %esp
-	jmp retornaalteracaosalarial
+	alterasalarialvazia:
+		pushl $msgvazia
+		call printf
+		addl $4, %esp
+		jmp retornaalteracaosalarial
 
-aumentapct:
-	pushl $pedeporcentagemsalarial
-	call printf
-	pushl $pct
-	pushl $formafloat
-	call scanf
-	addl $12, %esp
-	movl ptinicio, %esi
-andapct:
-	fldl um
-	fldl cem
-	fldl pct
-	fdiv %st(1), %st(0)
-	fadd %st(2), %st(0)
-	fldl 96(%edi)
-	fmul %st(1), %st(0)
-	subl $8, %esp
-	fstpl (%esp)
-	popl %eax
-	movl %eax, 96(%edi)
-	addl $8, %esp
+	aumentapct:
+		pushl $pedeporcentagemsalarial
+		call printf
+		pushl $pct
+		pushl $formafloat
+		call scanf
+		addl $12, %esp
+		movl ptinicio, %esi
+	andapct:
+		fldl um
+		fldl cem
+		fldl pct
+		fdiv %st(1), %st(0)
+		fadd %st(2), %st(0)
+		fldl 96(%edi)
+		fmul %st(1), %st(0)
+		#subl $8, %esp
+		fstp 96(%edi)
+		#popl %eax
+		#movl %eax, 96(%edi)
+		#addl $8, %esp
 
-	pushl $msgteste
-	call printf
-	addl $4, %esp
-	cmpl %edi, ptfim
-	je retornaalteracaosalarial
-	movl 104(%edi), %edi
-	jmp andapct
+		pushl $msgteste
+		call printf
+		addl $4, %esp
+		cmpl %edi, ptfim
+		je retornaalteracaosalarial
+		movl 104(%edi), %edi
+		jmp andapct
 
-aumentasoma:
-	pushl $pedevalorsalarial
-	call printf
-	pushl $val
-	pushl $formafloat
-	call scanf
-	addl $12, %esp
-	fldl val
-	movl ptinicio, %edi
-andasoma:
-	fldl 96(%edi)
-	fadd %st(1), %st(0)
+	aumentasoma:
+		pushl $pedevalorsalarial
+		call printf
+		pushl $val
+		pushl $formafloat
+		call scanf
+		addl $12, %esp
+		fldl val
+		movl ptinicio, %edi
+	andasoma:
+		fldl 96(%edi)
+		fadd %st(1), %st(0)
 
-	subl $8, %esp
-	fstpl (%esp)
-	popl %eax
-	movl %eax, 96(%edi)
+		#subl $8, %esp
+		fstp 96(%edi)
+		#popl %eax
+		#movl %eax, 96(%edi)
 
-	cmpl %edi, ptfim
-	je retornaalteracaosalarial
-	movl 104(%edi), %edi
-	jmp andasoma
+		cmpl %edi, ptfim
+		je retornaalteracaosalarial
+		movl 104(%edi), %edi
+		jmp andasoma
 
-aumentamult:
-	pushl $pedefatorsalarial
-	call printf
-	pushl $fat
-	pushl $formafloat
-	call scanf
-	addl $12, %esp
-	fldl fat
-	movl ptinicio, %edi
-andamult:
-	fldl 96(%edi)
-	fmul %st(1), %st(0)
+	aumentamult:
+		pushl $pedefatorsalarial
+		call printf
+		pushl $fat
+		pushl $formafloat
+		call scanf
+		addl $12, %esp
+		fldl fat
+		movl ptinicio, %edi
+	andamult:
+		fldl 96(%edi)
+		fmul %st(1), %st(0)
 
-	subl $8, %esp
-	fstpl (%esp)
-	popl %eax
-	movl %eax, 96(%edi)
+		#subl $8, %esp
+		fstp 96(%edi)
+		#popl %eax
+		#movl %eax, 96(%edi)
 
-	cmpl %edi, ptfim
-	je retornaalteracaosalarial
-	movl 104(%edi), %edi
-	jmp andamult
+		cmpl %edi, ptfim
+		je retornaalteracaosalarial
+		movl 104(%edi), %edi
+		jmp andamult
 
-baixapct:
-	pushl $pedeporcentagemsalarial
-	call printf
-	pushl $pct
-	pushl $formafloat
-	call scanf
-	addl $12, %esp
-	movl ptinicio, %edi
-andabaixapct:
-	fldl cem
-	fldl pct
-	fldl um
-	fdiv %st(1), %st(0)
-	fsub %st(1), %st(0)
-	fldl 96(%edi)
-	fmul %st(1), %st(0)
-	subl $8, %esp
-	fstpl (%esp)
-	popl %eax
-	movl %eax, 96(%edi)
-	addl $8, %esp
+	baixapct:
+		pushl $pedeporcentagemsalarial
+		call printf
+		pushl $pct
+		pushl $formafloat
+		call scanf
+		addl $12, %esp
+		movl ptinicio, %edi
+	andabaixapct:
+		fldl cem
+		fldl pct
+		fldl um
+		fdiv %st(1), %st(0)
+		fsub %st(1), %st(0)
+		fldl 96(%edi)
+		fmul %st(1), %st(0)
+		#subl $8, %esp
+		fstp 96(%edi)
+		#popl %eax
+		#movl %eax, 96(%edi)
+		#addl $8, %esp
 
-	cmpl %edi, ptfim
-	je retornaalteracaosalarial
-	movl 104(%edi), %edi
-	jmp andabaixapct
+		cmpl %edi, ptfim
+		je retornaalteracaosalarial
+		movl 104(%edi), %edi
+		jmp andabaixapct
 
-baixasoma:
-	pushl $pedevalorsalarial
-	call printf
-	pushl $val
-	pushl $formafloat
-	call scanf
-	addl $12, %esp
-	fldl val
-	movl ptinicio, %edi
-andabaixasoma:
-	fldl 96(%edi)
-	fsub %st(1), %st(0)
+	baixasoma:
+		pushl $pedevalorsalarial
+		call printf
+		pushl $val
+		pushl $formafloat
+		call scanf
+		addl $12, %esp
+		fldl val
+		movl ptinicio, %edi
+	andabaixasoma:
+		fldl 96(%edi)
+		fsub %st(1), %st(0)
 
-	subl $8, %esp
-	fstpl (%esp)
-	popl %eax
-	movl %eax, 96(%edi)
+		#subl $8, %esp
+		fstp 96(%edi)
+		#popl %eax
+		#movl %eax, 96(%edi)
 
-	cmpl %edi, ptfim
-	je retornaalteracaosalarial
-	movl 104(%edi), %edi
-	jmp andabaixasoma
+		cmpl %edi, ptfim
+		je retornaalteracaosalarial
+		movl 104(%edi), %edi
+		jmp andabaixasoma
 
-baixadiv:
-	pushl $pedefatorsalarial
-	call printf
-	pushl $fat
-	pushl $formafloat
-	call scanf
-	addl $12, %esp
-	fldl fat
-	movl ptinicio, %edi
-andabaixadiv:
-	fldl 96(%edi)
-	fdiv %st(1), %st(0)
+	baixadiv:
+		pushl $pedefatorsalarial
+		call printf
+		pushl $fat
+		pushl $formafloat
+		call scanf
+		addl $12, %esp
+		fldl fat
+		movl ptinicio, %edi
+	andabaixadiv:
+		fldl 96(%edi)
+		fdiv %st(1), %st(0)
 
-	subl $8, %esp
-	fstpl (%esp)
-	popl %eax
-	movl %eax, 96(%edi)
+		#subl $8, %esp
+		fstp 96(%edi)
+		#popl %eax
+		#movl %eax, 96(%edi)
 
-	cmpl %edi, ptfim
-	je retornaalteracaosalarial
-	movl 104(%edi), %edi
-	jmp andabaixadiv
+		cmpl %edi, ptfim
+		je retornaalteracaosalarial
+		movl 104(%edi), %edi
+		jmp andabaixadiv
 
-retornaalteracaosalarial:
-	RET
+	retornaalteracaosalarial:
+		RET
 
 # ---------- MENU PRINCIPAL ---------- #
 
