@@ -779,11 +779,12 @@ loopinferiornome:
 	movl %edi, ptanterior
 	movl (%eax), %eax
 	movl (%edi), %edi
-	pushl %eax
-	pushl %edi
-	call strcasecmp
-	addl $8, %esp
-	cmpl $0, %eax
+	#pushl %eax
+	#pushl %edi
+	#call strcasecmp
+	#addl $8, %esp
+	#cmpl $0, %eax
+	cmpl %eax, %edi
 	jge trocanome
 	jl incrementonome
 incrementonome:
@@ -905,9 +906,6 @@ aumentosalarial:
 	pushl $formaint
 	call  scanf
 	addl  $12, %esp
-	#pushl $formach    # para remover o enter
-	#call  scanf
-	#addl  $4, %esp
 
 	cmpl  $1, opcao
 	jz    aumentapct
@@ -927,10 +925,6 @@ baixasalarial:
 	pushl $formaint
 	call  scanf
 	addl  $12, %esp
-	#pushl $formach    # para remover o enter
-	#call  scanf
-	#addl  $4, %esp
-
 	cmpl  $1, opcao
 	jz    baixapct
 	cmpl  $2, opcao
@@ -955,7 +949,7 @@ aumentapct:
 	pushl $formafloat
 	call scanf
 	addl $12, %esp
-	movl ptinicio, %edi
+	movl ptinicio, %esi
 andapct:
 	fldl um
 	fldl cem
@@ -970,6 +964,9 @@ andapct:
 	movl %eax, 96(%edi)
 	addl $8, %esp
 
+	pushl $msgteste
+	call printf
+	addl $4, %esp
 	cmpl %edi, ptfim
 	je retornaalteracaosalarial
 	movl 104(%edi), %edi
