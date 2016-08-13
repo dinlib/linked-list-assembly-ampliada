@@ -368,7 +368,7 @@ procuraposicaodata:
 	movl ptfim, %ecx
 	movl 60(%ecx), %ecx
 	cmpl %ecx, 60(%edi)
-	jl inserefimdata
+	jg inserefimdata
 
 	movl ptfim, %ecx
 	movl 52(%ecx), %ecx
