@@ -979,9 +979,9 @@ retordenadatanome:
 		pushl $formafloat
 		call scanf
 		addl $12, %esp
-		fldl val
 		movl ptinicio, %edi
 	andasoma:
+		fldl val
 		fldl 96(%edi)
 		fadd %st(1), %st(0)
 
